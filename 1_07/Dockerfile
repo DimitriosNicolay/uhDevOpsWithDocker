@@ -6,8 +6,6 @@ COPY script.sh .
 
 RUN chmod +x script.sh
 
-RUN apt-get update -y
+RUN apt-get update -y && apt-get install curl -y
 
-RUN apt-get install curl -y
-
-CMD ["./script.sh"]
+ENTRYPOINT ["./script.sh"]
