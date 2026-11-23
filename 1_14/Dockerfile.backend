@@ -1,1 +1,18 @@
 # use here COPY 1_13 .
+FROM golang:1.21-alpine AS builder
+
+WORKDIR /app
+
+COPY ./1_13 /app
+
+RUN CGO_ENABLED=0 go build -o server .
+
+FROM scratch 
+
+ENV REQUEST_ORIGIN=http://localhost:5001
+
+COPY --from=builder /app/server /server
+
+EXPOSE 8080
+
+CMD ["./server"]
